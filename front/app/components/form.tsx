@@ -1,5 +1,7 @@
 "use client";
 
+const API_URL = process.env.API_URL;
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSearchParams } from "next/navigation";
@@ -36,7 +38,7 @@ export default function SpinForm() {
   const onSubmit = async (data: FormData) => {
     setError(null);
     try {
-      const res = await fetch(`http://localhost:8000/api/qr/${posterNumber}`, {
+      const res = await fetch(`${API_URL}:8000/api/qr/${posterNumber}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
