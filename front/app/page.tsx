@@ -2,6 +2,8 @@
 
 import { useSearchParams } from "next/navigation";
 import SpinForm from "./components/form";
+import { Suspense } from "react";
+
 
 export default function PosterPage() {
   const searchParams = useSearchParams();
@@ -11,7 +13,9 @@ export default function PosterPage() {
     <div className="w-1/2 h-1/2 bg-blue-400 m-auto mt-20">
       <h1>Poster Page</h1>
       <p>Poster number: {posterNumber}</p>
-      <SpinForm posterNumber={posterNumber} />
+      <Suspense fallback={<div>Loading form...</div>}>
+        <SpinForm posterNumber={posterNumber} />
+      </Suspense>
     </div>
   );
 }
