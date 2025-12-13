@@ -59,7 +59,7 @@ export default function SpinForm({ posterNumber }: Props) {
       <h2 className="text-xl font-bold mb-4">Spin to Win</h2>
 
       {result ? (
-        <div className="p-4 mb-4 border rounded bg-green-50">
+        <div className="text-black p-4 mb-4 border rounded bg-green-50">
           <h3 className="font-semibold">Uduşunuz:</h3>
           <p>
             Code: {result.prize.code} <br />
