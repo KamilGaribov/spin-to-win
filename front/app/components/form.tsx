@@ -4,7 +4,7 @@ const API_URL = process.env.API_URL;
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useSearchParams } from "next/navigation";
+// import { useSearchParams } from "next/navigation";
 
 
 type FormData = {
@@ -27,11 +27,11 @@ interface Props {
   posterNumber: string; // QR koddan gələn poster_number
 }
 
-export default function SpinForm() {
+export default function SpinForm({ posterNumber }: Props) {
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<FormData>();
   const [result, setResult] = useState<PrizeResponse | null>(null);
-  const searchParams = useSearchParams();
-  const posterNumber = searchParams.get("poster") ?? "";
+  // const searchParams = useSearchParams();
+  // const posterNumber = searchParams.get("poster") ?? "";
   console.log("Poster Number in Form:", posterNumber);
   const [error, setError] = useState<string | null>(null);
 
