@@ -27,6 +27,7 @@ QR_PLACES = [
     ("poster_8", "Poster 8"),
     ("poster_9", "Poster 9"),
     ("poster_10", "Poster 10"),
+    ("poster_11", "Poster 11")
 ]
 
 

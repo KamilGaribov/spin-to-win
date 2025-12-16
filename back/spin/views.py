@@ -28,6 +28,7 @@ def register(request, poster):
 
         # Random prize seçimi
         prize = get_random_prize()
+        prize = "spin_again"
         text = PRIZES[[p[0] for p in PRIZES].index(prize)][1]
 
         # Spin yarat
