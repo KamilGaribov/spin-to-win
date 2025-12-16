@@ -73,11 +73,14 @@ export default function SpinForm({ posterNumber }: Props) {
     useForm<FormData>();
 
   const [prizeCode, setPrizeCode] = useState<PrizeCode | null>(null);
+  const [prizeLabel, setPrizeLabel] = useState<string | null>(null);
   const [spinFinished, setSpinFinished] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const wheelRef = useRef<HTMLDivElement>(null);
   const [spinning, setSpinning] = useState(false);
+
+  const [showModal, setShowModal] = useState(false);
 
   const spinSoundRef = useRef<HTMLAudioElement | null>(null);
 
@@ -85,6 +88,7 @@ export default function SpinForm({ posterNumber }: Props) {
     spinSoundRef.current = new Audio("/wheel-spin.wav");
     spinSoundRef.current.loop = true; // loop while spinning
   }, []);
+
 
   /* =======================
      Spin animation
@@ -114,6 +118,7 @@ export default function SpinForm({ posterNumber }: Props) {
       setSpinning(false);
       setSpinFinished(true);
 
+
       // 🔁 IF spin again → reset wheel to start
       if (prizeCode === "spin_again" && wheelRef.current) {
         setTimeout(() => {
@@ -133,6 +138,10 @@ export default function SpinForm({ posterNumber }: Props) {
       spinSoundRef.current!.currentTime = 0;
     }, 3000);
   };
+
+  const printLabel = () => {
+    return PRIZE_LABELS[prizeCode!];
+  }
 
 
   /* =======================
@@ -160,6 +169,8 @@ export default function SpinForm({ posterNumber }: Props) {
       const prizeData: PrizeResponse = await res.json();
 
       setPrizeCode(prizeData.prize.code);
+      setPrizeLabel(prizeData.prize.az);
+      console.log("Prize data:", prizeData.prize.az);
       reset();
     } catch (e: any) {
       setError(e.message || "Xəta baş verdi");
@@ -174,12 +185,53 @@ export default function SpinForm({ posterNumber }: Props) {
   const disableSpinButton =
     spinFinished && !isSpinAgain;
 
+  useEffect(() => {
+    if (spinFinished && prizeCode && !isSpinAgain) {
+      console.log("Showing modal for prize:", prizeCode);
+      console.log("Prize label:", printLabel());
+      setShowModal(true);
+    }
+  }, [spinFinished, prizeCode, isSpinAgain]);
+
   /* =======================
      Render
   ======================= */
   return (
-    <div className="max-w-md mx-auto p-4 border rounded shadow-md">
-      <h2 className="text-xl font-bold mb-4">Spin to Win</h2>
+    <div className="w-[86%] absolute top-[280px] left-[7%]">
+
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="bg-white rounded-lg p-6 w-80 text-center relative">
+            <button
+              onClick={() => setShowModal(false)}
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+            >
+              ✕
+            </button>
+
+
+            {!isNoPrize ? (
+              <div className="text-2xl font-bold mb-2">
+                <p className="text-blue-700">
+                  🎉 {printLabel()}
+                </p>
+                <p className="text-gray-700">
+                  Mağazamıza yaxınlaşaraq uduşunuzu ala bilərsiniz
+                </p>
+              </div>
+            ) : (
+              <div className="text-2xl font-bold mb-2">😞 Təəssüf ki, uduşunuz yoxdur</div>
+            )}
+
+            <button
+              onClick={() => setShowModal(false)}
+              className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            >
+              Bağla
+            </button>
+          </div>
+        </div>
+      )}
 
       {error && (
         <div className="p-2 mb-4 border rounded bg-red-50 text-red-700">
@@ -192,19 +244,29 @@ export default function SpinForm({ posterNumber }: Props) {
           {/* Wheel */}
           <div className="flex flex-col items-center gap-4">
             <div className="relative w-80 h-80">
+              {/* Wheel */}
               <div
                 ref={wheelRef}
-                className="w-full h-full rounded-full"
+                className="w-[76%] h-[76%] top-[12%] left-[12%] absolute rounded-full"
                 style={{
-                  backgroundImage: "url(/spin.png)",
+                  backgroundImage: "url(/spin-new.png)",
                   backgroundSize: "cover",
+                  backgroundPosition: "center",
                 }}
               />
 
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 text-xl">
-                ▼
-              </div>
+              {/* Overlapping Carcas */}
+              <div
+                className="absolute top-0 left-0 w-full h-full"
+                style={{
+                  backgroundImage: "url(/wave.png)",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  pointerEvents: "none", // optional: allow clicks to go through
+                }}
+              />
             </div>
+
 
             <button
               onClick={spin}
@@ -215,7 +277,7 @@ export default function SpinForm({ posterNumber }: Props) {
             </button>
 
             {/* Result text AFTER spin */}
-            {spinFinished && (
+            {/* {spinFinished && (
               <div className="text-center mt-4 space-y-2">
                 <div className="text-lg font-semibold">
                   🎉 {PRIZE_LABELS[prizeCode]}
@@ -227,14 +289,14 @@ export default function SpinForm({ posterNumber }: Props) {
                   </p>
                 )}
               </div>
-            )}
+            )} */}
           </div>
         </>
       ) : (
         /* Form */
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full border1 rounded-md border-[59, 130, 246] p-2 bg-[rgba(59,130,246,0.2)]">
           <div>
-            <label className="block mb-1 font-medium">Fullname</label>
+            <label className="block mb-1 font-medium">Ad, soyad</label>
             <input
               {...register("fullname", { required: "Fullname is required" })}
               className="w-full p-2 border rounded"
@@ -256,7 +318,7 @@ export default function SpinForm({ posterNumber }: Props) {
           </div>
 
           <div>
-            <label className="block mb-1 font-medium">Mobile</label>
+            <label className="block mb-1 font-medium">Mobile nömrə</label>
             <input
               {...register("mobile", { required: "Mobile is required" })}
               className="w-full p-2 border rounded"
@@ -269,7 +331,7 @@ export default function SpinForm({ posterNumber }: Props) {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-blue-600 text-white p-2 rounded"
+            className="w-full bg-blue-600 text-white p-2 rounded mt-2"
           >
             {isSubmitting ? "Gözləyin..." : "Qeydiyyatdan keç"}
           </button>
