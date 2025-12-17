@@ -19,6 +19,10 @@ body {
   background: #000;
   color: #fff;
 }
+select, option {
+  background-color: transparent;
+  border: blue 1px solid;
+}
 input {
   border: blue 1px solid;
 }

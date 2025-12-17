@@ -47,8 +47,10 @@ export function getRotationForPrize(index: number) {
 type FormData = {
   fullname: string;
   email: string;
-  mobile: string;
+  mobilePrefix: string;
+  mobileNumber: string;
 };
+
 
 type PrizeCode = typeof WHEEL_PRIZES[number];
 
@@ -150,13 +152,19 @@ export default function SpinForm({ posterNumber }: Props) {
   const onSubmit = async (data: FormData) => {
     setError(null);
 
+    const payload = {
+      fullname: data.fullname,
+      email: data.email,
+      mobile: `(0${data.mobilePrefix})-${data.mobileNumber}`,
+    };
+
     try {
       const res = await fetch(
         `${API_URL}:8000/api/qr/${posterNumber}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
+          body: JSON.stringify(payload),
         }
       );
 
@@ -167,15 +175,14 @@ export default function SpinForm({ posterNumber }: Props) {
       }
 
       const prizeData: PrizeResponse = await res.json();
-
       setPrizeCode(prizeData.prize.code);
       setPrizeLabel(prizeData.prize.az);
-      console.log("Prize data:", prizeData.prize.az);
       reset();
     } catch (e: any) {
       setError(e.message || "Xəta baş verdi");
     }
   };
+
 
   /* =======================
      Helpers
@@ -318,15 +325,41 @@ export default function SpinForm({ posterNumber }: Props) {
           </div>
 
           <div>
-            <label className="block mb-1 font-medium">Mobile nömrə</label>
-            <input
-              {...register("mobile", { required: "Mobile is required" })}
-              className="w-full p-2 border rounded"
-            />
-            {errors.mobile && (
-              <p className="text-red-600">{errors.mobile.message}</p>
+            <label className="block mb-1 font-medium">Mobil nömrə</label>
+
+            <div className="flex gap-2">
+              {/* Prefix select */}
+              <select
+                {...register("mobilePrefix", { required: true })}
+                // defaultValue="50"
+                className="w-20 p-1 border rounded"
+              >
+                <option value="10">10</option>
+                <option value="50">50</option>
+                <option value="51">51</option>
+                <option value="55">55</option>
+                <option value="70">70</option>
+                <option value="77">77</option>
+                <option value="99">99</option>
+              </select>
+
+              {/* Mobile number */}
+              <input
+                {...register("mobileNumber", {
+                  required: "Mobile is required",
+                  minLength: { value: 7, message: "Minimum 7 rəqəm" },
+                })}
+                placeholder="1234567"
+                className="flex-1 p-2 border rounded"
+                inputMode="numeric"
+              />
+            </div>
+
+            {(errors.mobilePrefix || errors.mobileNumber) && (
+              <p className="text-red-600">Mobil nömrə düzgün deyil</p>
             )}
           </div>
+
 
           <button
             type="submit"

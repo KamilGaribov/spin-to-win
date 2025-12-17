@@ -17,17 +17,17 @@ PRIZES = [
 PRIZE_WEIGHTS = [10, 15, 5, 15, 20, 10, 15, 10]
 
 QR_PLACES = [
-    ("poster_1", "Poster 1"),
-    ("poster_2", "Poster 2"),
-    ("poster_3", "Poster 3"),
-    ("poster_4", "Poster 4"),
-    ("poster_5", "Poster 5"),
-    ("poster_6", "Poster 6"),
-    ("poster_7", "Poster 7"),
-    ("poster_8", "Poster 8"),
-    ("poster_9", "Poster 9"),
-    ("poster_10", "Poster 10"),
-    ("poster_11", "Poster 11")
+    ("poster_1", "Pilot Residence icherisheher"),
+    ("poster_2", "Renessance palace ag sheher"),
+    ("poster_3", "Inkishaf residence ag sheher"),
+    ("poster_4", "CasaMia Nesimi bazari"),
+    ("poster_5", "Teze Bazar binasi"),
+    ("poster_6", "White Tower Khatai"),
+    ("poster_7", "Red MTK Khatai Icra (Hakimiyyeti arxasi)"),
+    ("poster_8", "Lexus Binasi Khatai"),
+    ("poster_9", "Abu Arena"),
+    ("poster_10", "Rahat Marketin ustu"),
+    ("poster_11", "Social media")
 ]
 
 
