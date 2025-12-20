@@ -231,16 +231,23 @@ export default function SpinForm({ posterNumber }: Props) {
 
 
             {!isNoPrize ? (
-              <div className="text-2xl font-bold mb-2">
-                <p className="text-blue-700">
+              <div className="font-bold mb-2">
+                <p className="text-blue-700 text-2xl">
                   🎉 {printLabel()}
                 </p>
                 <p className="text-gray-700">
-                  Mağazamıza yaxınlaşaraq uduşunuzu ala bilərsiniz
+                  Mağazaya yaxınlaşmağınız və ya bizimlə əlaqə saxlamağınız xahiş olunur.
+                  <br />
+
+                  <a href="https://www.instagram.com/balique.az?igsh=ZGQ5bWxndWoyeTkw" target="_blank" className="text-blue-600 underline">
+                    İnstagram Link
+                  </a>
+                  <br />
+                  Əlaqə nömrəsi +994(55)344 73 33
                 </p>
               </div>
             ) : (
-              <div className="text-2xl font-bold mb-2">😞 Təəssüf ki, uduşunuz yoxdur</div>
+              <div className="text-2xl font-bold mb-2 text-red-400">😞 Təəssüf ki, uduşunuz yoxdur</div>
             )}
 
             <button
