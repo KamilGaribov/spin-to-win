@@ -92,9 +92,19 @@ export default function SpinForm({ posterNumber }: Props) {
   }, []);
 
 
-  /* =======================
-     Spin animation
-  ======================= */
+  const resetWheel = () => {
+    if (!wheelRef.current) return;
+
+    wheelRef.current.style.transition = "none";
+    wheelRef.current.style.transform = "rotate(0deg)";
+
+    // force reflow so next animation works
+    void wheelRef.current.offsetWidth;
+
+    setSpinFinished(false);
+  };
+
+
   const spin = () => {
     if (!prizeCode || spinning) return;
 
@@ -106,11 +116,9 @@ export default function SpinForm({ posterNumber }: Props) {
 
     const angle = getRotationForPrize(index);
 
-    // start sound
     spinSoundRef.current?.play();
 
     if (wheelRef.current) {
-      // 🎯 spin to result
       wheelRef.current.style.transition =
         "transform 4.2s cubic-bezier(0.22, 0.61, 0.36, 1)";
       wheelRef.current.style.transform = `rotate(${angle}deg)`;
@@ -120,26 +128,19 @@ export default function SpinForm({ posterNumber }: Props) {
       setSpinning(false);
       setSpinFinished(true);
 
-
-      // 🔁 IF spin again → reset wheel to start
-      if (prizeCode === "spin_again" && wheelRef.current) {
-        setTimeout(() => {
-          if (!wheelRef.current) return;
-
-          // remove animation
-          wheelRef.current.style.transition = "none";
-          wheelRef.current.style.transform = "rotate(0deg)";
-
-          // force reflow (important for next animation)
-          void wheelRef.current.offsetWidth;
-        }, 4000);
-      }
-
-      // stop sound
       spinSoundRef.current?.pause();
       spinSoundRef.current!.currentTime = 0;
-    }, 3000);
+
+      // 🔁 IF spin again → reset & allow re-spin
+      if (prizeCode === "spin_again") {
+        setTimeout(() => {
+          resetWheel();
+          setPrizeCode(null); // 👈 this shows form OR triggers re-submit
+        }, 600);
+      }
+    }, 4200);
   };
+
 
   const printLabel = () => {
     return PRIZE_LABELS[prizeCode!];
@@ -155,7 +156,7 @@ export default function SpinForm({ posterNumber }: Props) {
     const payload = {
       fullname: data.fullname,
       email: data.email,
-      mobile: `(0${data.mobilePrefix})-${data.mobileNumber}`,
+      mobile: `+994(${data.mobilePrefix})${data.mobileNumber}`,
     };
 
     try {
@@ -170,7 +171,12 @@ export default function SpinForm({ posterNumber }: Props) {
 
       if (!res.ok) {
         const err = await res.json();
-        setError(JSON.stringify(err));
+        console.log("Error response:", err.mobile[0]);
+        const message =
+          err.mobile?.[0] ||
+          "Xəta baş verdi";
+
+        setError(message);
         return;
       }
 
@@ -179,7 +185,14 @@ export default function SpinForm({ posterNumber }: Props) {
       setPrizeLabel(prizeData.prize.az);
       reset();
     } catch (e: any) {
-      setError(e.message || "Xəta baş verdi");
+      const message =
+        Array.isArray(e?.mobile)
+          ? e.mobile[0]
+          : "Xəta baş verdi.";
+
+      setError(message);
+
+      setError(message);
     }
   };
 
@@ -204,7 +217,7 @@ export default function SpinForm({ posterNumber }: Props) {
      Render
   ======================= */
   return (
-    <div className="w-[86%] absolute top-[280px] left-[7%]">
+    <div className="w-[86%] absolute top-[30%] left-[7%]">
 
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">

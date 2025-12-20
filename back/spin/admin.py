@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Customer, Prize, Spin
+from django.contrib.admin import DateFieldListFilter
 
 
 @admin.register(Customer)
@@ -14,7 +15,10 @@ class CustomerAdmin(admin.ModelAdmin):
 @admin.register(Spin)
 class SpinAdmin(admin.ModelAdmin):
     list_display = ("id", "customer", "prize", "poster", "is_used", "created_at")
-    list_filter = ("is_used",)
+    list_filter = (
+        "is_used",
+        ("created_at", DateFieldListFilter),
+    )
     search_fields = ("customer__mobile",)
     readonly_fields = (
         "customer",

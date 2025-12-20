@@ -12,9 +12,20 @@ from .serializers import CustomerSerializer
 import random
 
 
+# def get_random_prize():
+#     prize_codes = [p[0] for p in PRIZES]
+#     return random.choices(prize_codes, weights=PRIZE_WEIGHTS, k=1)[0]
+
+
 def get_random_prize():
-    prize_codes = [p[0] for p in PRIZES]
-    return random.choices(prize_codes, weights=PRIZE_WEIGHTS, k=1)[0]
+    filtered = [
+        (code, weight)
+        for (code, _), weight in zip(PRIZES, PRIZE_WEIGHTS)
+        if code != "spin_again"
+    ]
+
+    prize_codes, weights = zip(*filtered)
+    return random.choices(prize_codes, weights=weights, k=1)[0]
 
 
 @api_view(["POST"])
