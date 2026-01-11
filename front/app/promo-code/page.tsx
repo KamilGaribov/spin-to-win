@@ -7,13 +7,11 @@ export const metadata = {
 };
 
 type PageProps = {
-  searchParams: Promise<{
-    poster?: string;
-  }>;
+  searchParams?: { poster?: string };
 };
 
 export default async function PromoCodePage({ searchParams }: PageProps) {
-  const { poster } = await searchParams;
+  const poster = searchParams?.poster ?? "1";
   const posterNumber = poster ?? "";
 
   return (
