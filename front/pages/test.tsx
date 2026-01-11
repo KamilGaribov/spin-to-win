@@ -1,4 +1,4 @@
-import SpinForm from "./components/form";
+import Head from 'next/head';
 
 type PageProps = {
   searchParams: Promise<{
@@ -11,8 +11,8 @@ export default async function PosterPage({ searchParams }: PageProps) {
   const posterNumber = poster ?? "";
 
   return (
-    <div id="spin-page" className="min-h-screen w-full bg-spin bg-cover bg-center">
-      <SpinForm posterNumber={posterNumber} />
+    <div className="w-full h-full">
+        salam
     </div>
   );
 }

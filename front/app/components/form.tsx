@@ -171,7 +171,6 @@ export default function SpinForm({ posterNumber }: Props) {
 
       if (!res.ok) {
         const err = await res.json();
-        console.log("Error response:", err.mobile[0]);
         const message =
           err.mobile?.[0] ||
           "Xəta baş verdi";
@@ -207,8 +206,6 @@ export default function SpinForm({ posterNumber }: Props) {
 
   useEffect(() => {
     if (spinFinished && prizeCode && !isSpinAgain) {
-      console.log("Showing modal for prize:", prizeCode);
-      console.log("Prize label:", printLabel());
       setShowModal(true);
     }
   }, [spinFinished, prizeCode, isSpinAgain]);
@@ -276,7 +273,7 @@ export default function SpinForm({ posterNumber }: Props) {
                 ref={wheelRef}
                 className="w-[76%] h-[76%] top-[12%] left-[12%] absolute rounded-full"
                 style={{
-                  backgroundImage: "url(/spin-new.png)",
+                  backgroundImage: "url(/spin.png)",
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                 }}

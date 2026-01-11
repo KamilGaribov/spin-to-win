@@ -25,7 +25,14 @@ SECRET_KEY = "django-insecure-(72yxaq@m=t%myirf*77=fyg(!fsc&3aof20&)h_fw-5%nj=fg
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["http://68.183.214.118", "68.183.214.118", "http://localhost", "localhost"]
+ALLOWED_HOSTS = [
+    "http://68.183.214.118",
+    "68.183.214.118",
+    "http://localhost",
+    "localhost",
+    "marketing.balique.az",
+    "http://marketing.balique.az",
+]
 
 
 # Application definition
@@ -115,7 +122,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = 'Asia/Baku'
+TIME_ZONE = "Asia/Baku"
 USE_TZ = True
 USE_I18N = True
 
