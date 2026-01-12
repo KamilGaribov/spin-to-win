@@ -23,6 +23,17 @@ class PromoCustomerSerializer(serializers.ModelSerializer):
             message="Bu mobil nömrə artıq qeydiyyatdan keçmişdir."
         )]
     )
+    email = serializers.EmailField(
+        # Unikal yoxlama üçün
+        validators=[UniqueValidator(
+            queryset=PromoCustomer.objects.all(),
+            message="Bu email artıq qeydiyyatdan keçmişdir."
+        )],
+        error_messages={
+            'invalid': "Zəhmət olmasa doğru email daxil edin."
+        }
+    )
+    
     class Meta:
         model = PromoCustomer
         fields = ["id", "fullname", "email", "mobile"]

@@ -84,7 +84,7 @@ export default function PromoForm({ posterNumber }: Props) {
 
       if (!res.ok) {
         const err = await res.json();
-        const message = err.mobile?.[0] || err.message || "Xəta baş verdi";
+        const message = err.mobile?.[0] || err.email?.[0] || err.message || "Xəta baş verdi";
 
         setError(message);
         return;
@@ -94,7 +94,7 @@ export default function PromoForm({ posterNumber }: Props) {
       setPromoCode(response.promo_code);
       reset();
     } catch (e: any) {
-      const message = e.mobile?.[0] || e.message || "Xəta baş verdi";
+      const message = e.mobile?.[0] || e.email?.[0] || e.message || "Xəta baş verdi";
 
       setError(message);
     }
