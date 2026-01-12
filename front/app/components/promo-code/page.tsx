@@ -1,5 +1,5 @@
 import Head from "next/head";
-import PromoForm from "../components/promo-form";
+import PromoForm from "../promo-form";
 
 export const metadata = {
   title: "Promo kod qazan - Balique.az",

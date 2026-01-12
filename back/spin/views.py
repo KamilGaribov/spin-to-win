@@ -65,10 +65,11 @@ def register_promo(request, poster):
 
     if serializer.is_valid():
         customer = serializer.save()
+        print("_________________", poster)
 
         # Random prize seçimi
+        poster = poster.replace("kod_", "poster_")
         promo_code = dict(PROMO_CODES).get(poster)
-        print("PROMO CODE:", promo_code)
 
         # PromoCode yarat
         promo = PromoCode.objects.create(customer=customer, promo_code=promo_code, poster=poster)

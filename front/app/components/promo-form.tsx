@@ -73,6 +73,7 @@ export default function PromoForm({ posterNumber }: Props) {
     };
 
     try {
+      console.log("Submitting promo form with payload:", posterNumber);
       const res = await fetch(
         `${API_URL}:8000/api/promo/${posterNumber}`,
         {
