@@ -7,10 +7,22 @@ from rest_framework.decorators import (
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework import status
-from .models import PROMO_CODES, Customer, Spin, PRIZES, PRIZE_WEIGHTS, PromoCustomer, PromoCode, PROMO_PLACES
+from .models import (
+    PROMO_CODES,
+    Customer,
+    Spin,
+    PRIZES,
+    PRIZE_WEIGHTS,
+    PromoCustomer,
+    PromoCode,
+    PROMO_PLACES,
+)
 from .serializers import CustomerSerializer, PromoCustomerSerializer
 import random
 
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def get_random_prize():
@@ -71,7 +83,9 @@ def register_promo(request, poster):
         promo_code = dict(PROMO_CODES).get(poster)
 
         # PromoCode yarat
-        promo = PromoCode.objects.create(customer=customer, promo_code=promo_code, poster=poster)
+        promo = PromoCode.objects.create(
+            customer=customer, promo_code=promo_code, poster=poster
+        )
 
         return Response(
             {
@@ -82,5 +96,8 @@ def register_promo(request, poster):
             },
             status=201,
         )
+
+    print("❌ Promo registration error:", serializer.errors)  # terminal-a çıxır
+    logger.error(f"Promo registration failed: {serializer.errors}")
 
     return Response(serializer.errors, status=400)
