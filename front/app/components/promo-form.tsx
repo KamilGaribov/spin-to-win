@@ -73,7 +73,6 @@ export default function PromoForm({ posterNumber }: Props) {
     };
 
     try {
-      console.log("Submitting promo form with payload:", posterNumber);
       const res = await fetch(
         `${API_URL}/api/promo/${posterNumber}`,
         {
@@ -171,7 +170,36 @@ export default function PromoForm({ posterNumber }: Props) {
                     <circle cx="17.5" cy="6.5" r="1" />
                   </svg>
 
-                  Balique ilə tanış olunaaa
+                  Balique ilə tanış olun
+                </a>
+
+                <a
+                  href="https://balique.az/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="
+                    w-full
+                    flex items-center justify-center gap-3
+                    rounded-xl
+                    bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500
+                    px-6 py-3
+                    text-white font-semibold
+                    transition
+                    hover:opacity-90
+                    active:scale-[0.98]
+                  "
+                >
+                  {/* Website Icon (globe) */}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="h-5 w-5"
+                  >
+                    <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 1.5a8.5 8.5 0 018.5 8.5 8.5 8.5 0 01-8.5 8.5A8.5 8.5 0 013.5 12 8.5 8.5 0 0112 3.5zm0 1a7.5 7.5 0 00-7.5 7.5 7.5 7.5 0 007.5 7.5 7.5 7.5 0 007.5-7.5 7.5 7.5 0 00-7.5-7.5z" />
+                  </svg>
+
+                  Balique.az ilə tanış olun
                 </a>
 
               </p>
@@ -244,11 +272,77 @@ export default function PromoForm({ posterNumber }: Props) {
 
             Balique ilə tanış olun
           </a>
+          <br />
+
+          <a
+            href="https://balique.az/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="
+              w-full
+              flex items-center justify-center gap-2
+              rounded-lg
+              bg-blue-600
+              hover:bg-blue-700
+              active:bg-blue-800
+              text-white font-semibold
+              px-6 py-3
+              shadow-md
+              transition
+              transform
+              hover:scale-[1.02]
+              active:scale-[0.98]
+              bg-gradient-to-r 
+      from-[#1c1496] 
+      via-[#11118f] 
+      to-[#54dcf7]
+            "
+          >
+            {/* Globe Icon */}
+            <svg
+              id="Website_24"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect width="24" height="24" stroke="none" fill="#000000" opacity="0" />
+
+              <g transform="matrix(0.91 0 0 0.91 12 12)">
+                <path
+                  style={{
+                    stroke: "none",
+                    strokeWidth: 1,
+                    strokeDasharray: "none",
+                    strokeLinecap: "butt",
+                    strokeDashoffset: 0,
+                    strokeLinejoin: "miter",
+                    strokeMiterlimit: 4,
+                    fill: "rgb(255,255,255)",
+                    fillRule: "nonzero",
+                    opacity: 1,
+                  }}
+                  transform="translate(-12, -12)"
+                  d="M 12 2 C 8.308 2 5.0855156 4.016 3.3535156 7 L 5.7949219 7 C 6.6949219 5.888 7.8693281 5.0079531 9.2363281 4.5019531 C 8.9233281 5.2299531 8.6724688 6.08 8.4804688 7 L 10.537109 7 C 11.016109 5.023 11.687 4 12 4 C 12.313 4 12.983891 5.023 13.462891 7 L 15.519531 7 C 15.327531 6.08 15.075672 5.2299531 14.763672 4.5019531 C 16.129672 5.0079531 17.305078 5.888 18.205078 7 L 20.646484 7 C 18.914484 4.016 15.692 2 12 2 z M 1 9 L 2.2421875 15 L 3.5507812 15 L 4.4003906 11.529297 L 5.2480469 15 L 6.5507812 15 L 7.7929688 9 L 6.2890625 9 L 5.7519531 12.365234 L 4.953125 9 L 3.8398438 9 L 3.0390625 12.371094 L 2.5078125 9 L 1 9 z M 8.6035156 9 L 9.8457031 15 L 11.154297 15 L 12.003906 11.529297 L 12.851562 15 L 14.154297 15 L 15.396484 9 L 13.894531 9 L 13.355469 12.365234 L 12.558594 9 L 11.443359 9 L 10.644531 12.371094 L 10.111328 9 L 8.6035156 9 z M 16.207031 9 L 17.449219 15 L 18.757812 15 L 19.607422 11.529297 L 20.455078 15 L 21.757812 15 L 23 9 L 21.496094 9 L 20.958984 12.365234 L 20.160156 9 L 19.046875 9 L 18.246094 12.371094 L 17.714844 9 L 16.207031 9 z M 3.3535156 17 C 5.0855156 19.984 8.308 22 12 22 C 15.692 22 18.914484 19.984 20.646484 17 L 18.205078 17 C 17.305078 18.112 16.130672 18.992047 14.763672 19.498047 C 15.075672 18.770047 15.325578 17.92 15.517578 17 L 13.460938 17 C 12.981938 18.977 12.311047 20 11.998047 20 C 11.685047 20 11.016109 18.977 10.537109 17 L 8.4804688 17 C 8.6724688 17.92 8.9243281 18.770047 9.2363281 19.498047 C 7.8703281 18.992047 6.6949219 18.112 5.7949219 17 L 3.3535156 17 z"
+                  strokeLinecap="round"
+                />
+              </g>
+            </svg>
+
+            balique.az saytına keç
+          </a>
+
 
         </div>
       ) : (
         /* Form */
-        <form onSubmit={handleSubmit(onSubmit)} className="promo-form w-full border1 rounded-md border-[59, 130, 246] p-2">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit(onSubmit)(e);
+          }}
+          className="promo-form w-full border1 rounded-md border-[59, 130, 246] p-2"
+        >
           <div>
             <label className="block mb-1 font-medium">Ad, soyad</label>
             <input

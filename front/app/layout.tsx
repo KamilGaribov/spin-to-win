@@ -28,7 +28,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <div className="relative min-h-screen">
-          <div className="absolute top-4 left-4 z-10 border border-white h-[60px] px-2 bg-[ff,ff,ff] rounded-md flex items-center">
+          <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-10 h-[60px] px-2 bg-[ff,ff,ff] rounded-md flex items-center">
             <Link href="https://balique.az/" target="_blank">
               <Image src="/logo.png" alt="Balique Logo" width={100} height={40} />
             </Link>

@@ -65,7 +65,6 @@ def register_promo(request, poster):
 
     if serializer.is_valid():
         customer = serializer.save()
-        print("_________________", poster)
 
         # Random prize seçimi
         poster = poster.replace("kod_", "poster_")
