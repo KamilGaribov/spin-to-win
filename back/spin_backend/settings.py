@@ -32,7 +32,9 @@ ALLOWED_HOSTS = [
     "localhost",
     "marketing.balique.az",
     "http://marketing.balique.az",
-    "https://marketing.balique.az"
+    "https://marketing.balique.az",
+    "https://api.balique.az",
+    "api.balique.az"
 ]
 
 CSRF_TRUSTED_ORIGINS = [
