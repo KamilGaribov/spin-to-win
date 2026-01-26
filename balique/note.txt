@@ -1,0 +1,18 @@
+salmon, sturgeon, anchous, dorado, surmullet,
+kambala, sudak, red snapper, sea bass, xek, beluga,
+sturgeon caviar,beluga caviar, trout,kalmar komondorski, crab legs, octopus,
+lobster, skallops, mackerel, shrimp, green shell mussel
+
+Salmon
+Sea bass
+Dorado
+Mackerel
+Anchovy
+Red snapper
+
+Beluga caviar
+Sturgeon caviar
+Lobster
+Crab legs
+Scallops
+Octopus
