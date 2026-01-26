@@ -16,6 +16,6 @@ services:
     # volumes:
     #   - ./front:/app
   experience:
-    build: ./balique
+    build: ./balique-interactive
     ports:
       - "3001:3001"
