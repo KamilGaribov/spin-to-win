@@ -74,7 +74,7 @@ export default function PromoForm({ onSuccess }: Props) {
 
     try {
       const res = await fetch(
-        `${API_URL}/api/promo/${posterNumber}`,
+        `${API_URL}/api/promo/`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
