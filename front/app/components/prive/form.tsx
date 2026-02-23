@@ -58,7 +58,8 @@ export default function PriveForm({ onSuccess }: { onSuccess?: () => void }) {
     };
 
     try {
-      const res = await fetch(`${API_URL}/api/prive-register/`, {
+      // const res = await fetch(`${API_URL}/api/prive-register/`, {
+      const res = await fetch(`/api/prive-register/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
