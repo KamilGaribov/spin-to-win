@@ -26,7 +26,7 @@ export default async function PromoCodePage({ searchParams }: PageProps) {
         id="promo-page"
         className="relative min-h-screen bg-promo bg-cover bg-center"
       >
-        <PromoForm posterNumber={posterNumber} />
+        {/* <PromoForm posterNumber={posterNumber} /> */}
       </div>
     </>
   );
