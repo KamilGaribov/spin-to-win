@@ -10,7 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import os
 from pathlib import Path
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -145,5 +148,30 @@ STATIC_ROOT = '/app/staticfiles'
 # CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
     "https://marketing.balique.az",
+    "https://prive.balique.az",
     "http://localhost:3000"
 ]
+
+
+# email settings
+# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_BACKEND = "spin.email_backend.HeloEmailBackend"
+EMAIL_HOST = "mail.balique.az"
+EMAIL_PORT = 465
+# EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+# DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL")
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "prive@balique.az")
+
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+EMAIL_USE_TLS = False
+EMAIL_TIMEOUT = 10
+
+# ✅ IMPORTANT: fix HELO/EHLO
+EMAIL_SSL_CERTFILE = None
+EMAIL_SSL_KEYFILE = None
+EMAIL_USE_LOCALTIME = True
+

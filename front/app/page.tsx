@@ -20,36 +20,17 @@
 
 import Head from "next/head";
 import PromoForm from "./components/promo-form";
+import PriveForm from "./components/prive/form";
+import PriveWrapper from "./components/prive/prive-wrapper";
 
 export const metadata = {
-  title: "Promo kod qazan - Balique.az",
-  description: "Get your promo code at Balique.az",
+  title: "Balique.az - Prive",
+  description: "Prive invitation at Balique.az",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
-type PageProps = {
-  searchParams: Promise<{
-    promo?: string;
-  }>;
-};
-
-export default async function PromoCodePage({ searchParams }: PageProps) {
-  const { promo } = await searchParams;
-  const posterNumber = promo ?? "";
-
-  return (
-    <>
-      <Head>
-        <title>Promo kod qazan - Balique.az</title>
-        <meta name="description" content="Get your promo code at Balique.az" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <div
-        id="promo-page"
-        className="relative min-h-screen bg-promo bg-cover bg-center"
-      >
-        <PromoForm posterNumber={posterNumber} />
-      </div>
-    </>
-  );
+export default async function PrivePage() {
+  return <PriveWrapper />
 }

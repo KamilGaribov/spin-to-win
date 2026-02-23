@@ -17,7 +17,11 @@ from .models import (
     PromoCode,
     PROMO_PLACES,
 )
-from .serializers import CustomerSerializer, PromoCustomerSerializer
+from .serializers import (
+    CustomerSerializer,
+    PriveCustomerSerializer,
+    PromoCustomerSerializer,
+)
 import random
 
 import logging
@@ -100,4 +104,106 @@ def register_promo(request, poster):
     print("❌ Promo registration error:", serializer.errors)  # terminal-a çıxır
     logger.error(f"Promo registration failed: {serializer.errors}")
 
+    return Response(serializer.errors, status=400)
+
+
+from django.conf import settings
+from django.core.mail import EmailMultiAlternatives
+from rest_framework.response import Response
+from rest_framework.decorators import (
+    api_view,
+    permission_classes,
+    authentication_classes,
+)
+from rest_framework.permissions import AllowAny
+import logging
+
+logger = logging.getLogger(__name__)
+
+
+@api_view(["POST"])
+@permission_classes([AllowAny])
+@authentication_classes([])
+def register_prive(request):
+    serializer = PriveCustomerSerializer(data=request.data)
+
+    if serializer.is_valid():
+        customer = serializer.save()
+
+        # ✅ Send Welcome Email
+        if customer.email:
+            first_name = customer.fullname.split(" ")[0]
+
+            subject = "Welcome to Balique Privé"
+
+            text_content = f"""
+Dear {first_name},
+
+Thank you for joining Balique Privé and becoming part of our private circle.
+
+Balique has been operating for over five years as a premium seafood supplier, partnering with more than 150 restaurants, hotels and hospitality venues. Our selection includes refined seafood and high-quality black caviar, trusted by distinguished establishments and private clients alike.
+
+Balique Privé represents our private hospitality division — dedicated to exclusive gatherings, elegant receptions and bespoke seafood experiences.
+
+Our team will personally connect with you to explore how we may assist with your upcoming occasions.
+
+Warm regards,
+Balique Privé
+Private Seafood & Caviar Experiences
+"""
+
+            html_content = f"""
+            <div style="font-family:Arial,Helvetica,sans-serif; line-height:1.6; color:#111;">
+                <p>Dear <strong>{first_name}</strong>,</p>
+
+                <p>Thank you for joining <strong>Balique Privé</strong> and becoming part of our private circle.</p>
+
+                <p>
+                Balique has been operating for over five years as a premium seafood supplier,
+                partnering with more than 150 restaurants, hotels and hospitality venues.
+                Our selection includes refined seafood and high-quality black caviar,
+                trusted by distinguished establishments and private clients alike.
+                </p>
+
+                <p>
+                <strong>Balique Privé</strong> represents our private hospitality division —
+                dedicated to exclusive gatherings, elegant receptions and bespoke seafood experiences.
+                </p>
+
+                <p>
+                Our team will personally connect with you to explore how we may assist
+                with your upcoming occasions.
+                </p>
+
+                <p style="margin-top:25px;">
+                Warm regards,<br>
+                <strong>Balique Privé</strong><br>
+                Private Seafood & Caviar Experiences
+                </p>
+            </div>
+            """
+
+            try:
+                email = EmailMultiAlternatives(
+                    subject=subject,
+                    body=text_content,
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    to=[customer.email],
+                )
+                email.attach_alternative(html_content, "text/html")
+                email.send()
+            except Exception as e:
+                logger.exception(
+                    f"Failed to send welcome email to {customer.email}: {e}"
+                )
+
+        return Response(
+            {
+                "success": True,
+                "customer": serializer.data,
+            },
+            status=201,
+        )
+
+    logger.error(f"Prive registration failed: {serializer.errors}")
     return Response(serializer.errors, status=400)

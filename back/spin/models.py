@@ -138,3 +138,23 @@ class PromoCode(models.Model):
 
     def __str__(self):
         return f"{self.customer.mobile} → {self.promo_code}"
+
+
+class Service(models.Model):
+    name = models.CharField(max_length=120, unique=True, verbose_name="Xidmət adı")
+
+    def __str__(self):
+        return self.name
+
+
+class PriveCustomer(models.Model):
+    fullname = models.CharField(max_length=120)
+    mobile = models.CharField(max_length=20, unique=True)
+    email = models.EmailField(blank=True, null=True)
+    interested_in = models.ManyToManyField(Service, blank=True, verbose_name="Maraqlandığı xidmətlər")
+    message = models.TextField(blank=True, null=True, verbose_name="Əlavə məlumat")
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.fullname} {self.mobile}"

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Customer, PromoCode, Spin, PromoCustomer
+from .models import Customer, PriveCustomer, PromoCode, Service, Spin, PromoCustomer
 from django.contrib.admin import DateFieldListFilter
 from django.http import HttpResponse
 import openpyxl
@@ -112,3 +112,19 @@ class PromoCodeAdmin(admin.ModelAdmin):
     ordering = ("-created_at",)
     list_display_links = ("customer",)
     actions = [export_as_excel]
+
+
+@admin.register(PriveCustomer)
+class PriveCustomerAdmin(admin.ModelAdmin):
+    list_display = ("id", "fullname", "email", "mobile")
+    search_fields = ("mobile",)
+    ordering = ("-created_at",)
+    list_display_links = ("fullname",)
+    readonly_fields = ("id", "fullname", "email", "mobile", "interested_in", "message")
+    actions = [export_as_excel]
+
+
+@admin.register(Service)
+class ServiceAdmin(admin.ModelAdmin):
+    list_display = ("name",)
+    search_fields = ("name",)

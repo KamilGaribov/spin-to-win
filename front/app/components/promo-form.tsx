@@ -40,13 +40,13 @@ interface PrizeResponse {
 }
 
 interface Props {
-  posterNumber: string;
+  onSuccess: () => void;
 }
 
 /* =======================
    Component
 ======================= */
-export default function PromoForm({ posterNumber }: Props) {
+export default function PromoForm({ onSuccess }: Props) {
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } =
     useForm<FormData>();
 
