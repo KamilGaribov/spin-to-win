@@ -37,11 +37,15 @@ ALLOWED_HOSTS = [
     "http://marketing.balique.az",
     "https://marketing.balique.az",
     "https://api.balique.az",
-    "api.balique.az"
+    "api.balique.az",
+    "prive.balique.az",
+    "http://prive.balique.az",
+    "https://prive.balique.az",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     'https://marketing.balique.az',
+    'https://prive.balique.az',
 ]
 
 
