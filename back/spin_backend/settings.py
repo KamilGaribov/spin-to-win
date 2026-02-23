@@ -29,8 +29,8 @@ SECRET_KEY = "django-insecure-(72yxaq@m=t%myirf*77=fyg(!fsc&3aof20&)h_fw-5%nj=fg
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "http://68.183.214.118",
-    "68.183.214.118",
+    "http://185.203.118.134",
+    "185.203.118.134",
     "http://localhost",
     "localhost",
     "marketing.balique.az",
