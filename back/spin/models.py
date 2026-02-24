@@ -149,7 +149,7 @@ class Service(models.Model):
 
 class PriveCustomer(models.Model):
     fullname = models.CharField(max_length=120)
-    mobile = models.CharField(max_length=20)
+    mobile = models.CharField(max_length=20, unique=True)
     email = models.EmailField(blank=True, null=True)
     interested_in = models.ManyToManyField(Service, blank=True, verbose_name="Maraqlandığı xidmətlər")
     message = models.TextField(blank=True, null=True, verbose_name="Əlavə məlumat")

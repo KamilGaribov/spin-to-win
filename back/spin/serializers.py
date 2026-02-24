@@ -46,14 +46,14 @@ class PromoCustomerSerializer(serializers.ModelSerializer):
 
 
 class PriveCustomerSerializer(serializers.ModelSerializer):
-    mobile = serializers.CharField(
-        validators=[
-            UniqueValidator(
-                queryset=PriveCustomer.objects.all(),
-                message="Bu mobil nömrə artıq qeydiyyatdan keçmişdir.",
-            )
-        ]
-    )
+    # mobile = serializers.CharField(
+    #     validators=[
+    #         UniqueValidator(
+    #             queryset=PriveCustomer.objects.all(),
+    #             message="Bu mobil nömrə artıq qeydiyyatdan keçmişdir.",
+    #         )
+    #     ]
+    # )
     email = serializers.EmailField(
         # Unikal yoxlama üçün
         validators=[
