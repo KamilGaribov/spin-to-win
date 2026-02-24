@@ -9,6 +9,7 @@ import { useSession, signIn, signOut } from "next-auth/react";
 
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const UI_URL = process.env.NEXT_PUBLIC_UI_URL
 
 export const mulish = Mulish({
   subsets: ["latin"],
@@ -99,7 +100,7 @@ export default function PriveForm({ success2, onSuccess }: { success2?: boolean;
 
   const continueWithGoogle = async () => {
     setError(null);
-    await signIn("google", { callbackUrl: `${window.location.origin}/google-registration` });
+    await signIn("google", { callbackUrl: `${UI_URL}/google-registration` });
   };
 
   useEffect(() => {
