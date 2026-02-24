@@ -4,13 +4,13 @@ import { useState } from "react";
 import PriveForm from "./form";
 
 export default function PriveWrapper() {
-    const [bgSrc, setBgSrc] = useState("/prive-home.png");
+    const [bgSrc, setBgSrc] = useState("/prive-home.webp");
+    const [success, setSuccess] = useState(false);
 
     return (
-        // <div id="prive-page-2" className="relative w-full">
         <div
             id="prive-page-2"
-            className={`relative w-full ${bgSrc === "/prive-success.png" ? "h-dvh overflow-hidden" : "min-h-dvh overflow-y-auto"}`}
+            className={`relative w-full ${bgSrc === "/prive-success.webp" ? "h-dvh overflow-hidden" : "min-h-dvh overflow-y-auto"}`}
         >
             {/* Background (full size) */}
             <div
@@ -25,7 +25,8 @@ export default function PriveWrapper() {
             {/* Content */}
             <div className="relative z-10">
                 <PriveForm
-                    onSuccess={() => setBgSrc("/prive-success.png")}
+                    success2={false}
+                    onSuccess={() => setBgSrc("/prive-success.webp")}
                 />
             </div>
         </div>

@@ -130,7 +130,15 @@ def register_prive(request):
     if serializer.is_valid():
         customer = serializer.save()
 
-        # ✅ Send Welcome Email
+        # Get services list (ManyToMany)
+        services = (
+            ", ".join(customer.interested_in.values_list("name", flat=True))
+            or "Not specified"
+        )
+
+        # -------------------------------------------------
+        # 1️⃣ ORIGINAL WELCOME EMAIL (unchanged content)
+        # -------------------------------------------------
         if customer.email:
             first_name = customer.fullname.split(" ")[0]
 
@@ -183,19 +191,40 @@ Private Seafood & Caviar Experiences
             </div>
             """
 
-            try:
-                email = EmailMultiAlternatives(
-                    subject=subject,
-                    body=text_content,
-                    from_email=settings.DEFAULT_FROM_EMAIL,
-                    to=[customer.email],
-                )
-                email.attach_alternative(html_content, "text/html")
-                email.send()
-            except Exception as e:
-                logger.exception(
-                    f"Failed to send welcome email to {customer.email}: {e}"
-                )
+            email = EmailMultiAlternatives(
+                subject=subject,
+                body=text_content,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                to=[customer.email],
+                headers={"Reply-To": "prive@balique.az"},
+            )
+            email.attach_alternative(html_content, "text/html")
+            email.send()
+
+        # -------------------------------------------------
+        # 2️⃣ ADMIN EMAIL (with customer details)
+        # -------------------------------------------------
+        admin_subject = "New Balique Privé Registration"
+
+        admin_text = f"""
+New Prive Registration
+
+Full Name: {customer.fullname}
+Mobile: {customer.mobile}
+Email: {customer.email or "Not provided"}
+Interested In: {services}
+Message: {customer.message or "No message"}
+
+Created At: {customer.created_at}
+"""
+
+        admin_email = EmailMultiAlternatives(
+            subject=admin_subject,
+            body=admin_text,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            to=["prive@balique.az"],
+        )
+        admin_email.send()
 
         return Response(
             {
@@ -205,5 +234,4 @@ Private Seafood & Caviar Experiences
             status=201,
         )
 
-    logger.error(f"Prive registration failed: {serializer.errors}")
     return Response(serializer.errors, status=400)

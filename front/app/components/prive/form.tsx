@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Cinzel } from "next/font/google";
 import { Cormorant_Upright } from "next/font/google";
 import { Mulish } from "next/font/google";
+import { useSession, signIn, signOut } from "next-auth/react";
+
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -35,16 +37,26 @@ type PrizeResponse = {
   success: boolean;
 };
 
-export default function PriveForm({ onSuccess }: { onSuccess?: () => void }) {
+export default function PriveForm({ success2, onSuccess }: { success2?: boolean; onSuccess?: () => void }) {
   const {
     register,
     handleSubmit,
     reset,
     formState: { isSubmitting },
+    setValue
   } = useForm<FormData>();
+
+  const { data: session } = useSession();
 
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!session?.user) return;
+
+    if (session.user.name) setValue("fullname", session.user.name);
+    if (session.user.email) setValue("email", session.user.email);
+  }, [session, setValue]);
 
   const submit = async (data: FormData) => {
     setError(null);
@@ -58,8 +70,8 @@ export default function PriveForm({ onSuccess }: { onSuccess?: () => void }) {
     };
 
     try {
-      // const res = await fetch(`${API_URL}/api/prive-register/`, {
-      const res = await fetch(`/api/prive-register/`, {
+      const res = await fetch(`${API_URL}/api/prive-register/`, {
+        // const res = await fetch(`/api/prive-register/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -85,8 +97,44 @@ export default function PriveForm({ onSuccess }: { onSuccess?: () => void }) {
     }
   };
 
+  const continueWithGoogle = async () => {
+    setError(null);
+    await signIn("google", { callbackUrl: `${window.location.origin}/google-registration` });
+  };
+
+  useEffect(() => {
+    if (!session?.user) return;
+
+    const sendGoogleUser = async () => {
+      try {
+        await fetch(`${API_URL}/api/prive-register/`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            fullname: session.user.name,
+            email: session.user.email,
+            mobile: "994", // or null if optional
+            interested_in: [],
+            message: "",
+          }),
+        });
+
+        setSuccess(true);
+
+        // Optional: clear session (register-only page)
+        await signOut({ redirect: false });
+
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    sendGoogleUser();
+
+  }, [session]);
+
   // ===== Success screen (Frame 7) =====
-  if (success) {
+  if (success || success2) {
     return (
       // <div className="mx-auto w-[80%] max-h-[100vh] max-w-[820px] pt-15 text-white bg-black/[0.42] border1 border-white">
       // <div className="h-full w-full flex items-center justify-center">
@@ -280,7 +328,7 @@ export default function PriveForm({ onSuccess }: { onSuccess?: () => void }) {
         </div>
 
         {/* Button (bottom right like screenshot) */}
-        <div className="mt-[30px] flex justify-end pb-[52px]">
+        <div className="mt-[30px] flex justify-end">
           <button
             type="submit"
             disabled={isSubmitting}
@@ -289,6 +337,55 @@ export default function PriveForm({ onSuccess }: { onSuccess?: () => void }) {
           >
             {isSubmitting ? "..." : "Sign up"}
           </button>
+        </div>
+
+        <div className="mt-[22px] pb-[52px]">
+          <div className="flex items-center gap-3">
+            <div className="h-px flex-1 bg-white/25" />
+            <div className="text-[12px] text-white/70">or</div>
+            <div className="h-px flex-1 bg-white/25" />
+          </div>
+
+          <div className="mt-[14px]">
+            <button
+              type="button"
+              onClick={continueWithGoogle}
+              className="h-[36px] w-full rounded-[3px] bg-white/92 text-[14px] font-semibold text-black
+               shadow-sm transition active:scale-[0.99]
+               flex items-center justify-center gap-2"
+            >
+              {/* Google Icon */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 48 48"
+                className="h-[16px] w-[16px]"
+              >
+                <path
+                  fill="#FFC107"
+                  d="M43.6 20.5H42V20H24v8h11.3C33.7 32.1 29.3 35 24 35c-6.1 0-11-4.9-11-11s4.9-11 
+        11-11c2.8 0 5.3 1 7.3 2.7l6-6C33.5 6.1 29 4 24 4 12.9 4 4 12.9 4 24s8.9 
+        20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-3.5z"
+                />
+                <path
+                  fill="#FF3D00"
+                  d="M6.3 14.7l6.6 4.8C14.7 16 18.9 13 24 13c2.8 0 5.3 1 7.3 
+        2.7l6-6C33.5 6.1 29 4 24 4c-7.7 0-14.3 4.4-17.7 10.7z"
+                />
+                <path
+                  fill="#4CAF50"
+                  d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.1C29.3 35 26.8 
+        36 24 36c-5.2 0-9.6-3.5-11.2-8.3l-6.5 5C9.7 39.4 16.3 44 24 44z"
+                />
+                <path
+                  fill="#1976D2"
+                  d="M43.6 20.5H42V20H24v8h11.3c-1 3-3.4 5.3-6.1 
+        6.7l6.2 5.1C39.5 36.6 44 30.9 44 24c0-1.3-.1-2.7-.4-3.5z"
+                />
+              </svg>
+
+              Continue with Google
+            </button>
+          </div>
         </div>
       </form>
     </div>
