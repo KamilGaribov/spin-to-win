@@ -111,8 +111,8 @@ export default function PriveForm({ success2, onSuccess }: { success2?: boolean;
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            fullname: session.user.name,
-            email: session.user.email,
+            fullname: session!.user!.name,
+            email: session!.user!.email,
             mobile: "994", // or null if optional
             interested_in: [],
             message: "",
